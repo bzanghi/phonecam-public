@@ -1,0 +1,67 @@
+{
+  "_comment": "Shared protocol test vectors. Loaded by android/app/src/test (ProtocolVectorsTest.kt). The Swift tests hard-code their crypto vectors in mac/Packages/PhoneCamCore/Tests (PairingTests.swift). Change both sides together.",
+  "protocolVersion": 1,
+  "pairing": {
+    "url": "phonecam://pair?v=1&id=1EE04363-TEST&n=Office%20Mac&h=192.168.1.20,10.0.0.5&p=47800&k=AAECAwQFBgcICQoLDA0ODw",
+    "macId": "1EE04363-TEST",
+    "macName": "Office Mac",
+    "hosts": [
+      "192.168.1.20",
+      "10.0.0.5"
+    ],
+    "port": 47800,
+    "tokenHex": "000102030405060708090a0b0c0d0e0f"
+  },
+  "rejectedPairingUrls": [
+    "phonecam://pair?v=1&id=x&n=Evil&h=203.0.113.9&p=47800&k=AAECAwQFBgcICQoLDA0ODw",
+    "phonecam://pair?v=1&id=x&n=Evil&h=evil.example.com&p=47800&k=AAECAwQFBgcICQoLDA0ODw",
+    "phonecam://pair?v=1&id=x&n=Evil&h=192.168.1.2&p=70000&k=AAECAwQFBgcICQoLDA0ODw",
+    "phonecam://pair?v=1&id=x&n=Evil&h=192.168.1.2&p=47800&k=AAECAwQFBgc",
+    "phonecam://pair?v=2&id=x&n=Evil&h=192.168.1.2&p=47800&k=AAECAwQFBgcICQoLDA0ODw"
+  ],
+  "sealed": [
+    {
+      "keyHex": "4242424242424242424242424242424242424242424242424242424242424242",
+      "dir": "p2m",
+      "seq": 7,
+      "body": "{\"battery\":80,\"height\":1080,\"limited\":\"network\",\"t\":\"state\",\"thermal\":\"moderate\",\"width\":1920}",
+      "macB64url": "4OjHY1HvJ5E0KuEI0bhZeO6NsqAwBVFv9vFWR9OAVRA"
+    },
+    {
+      "keyHex": "4242424242424242424242424242424242424242424242424242424242424242",
+      "dir": "m2p",
+      "seq": 3,
+      "body": "{\"action\":\"idle\",\"t\":\"control\"}",
+      "macB64url": "k4Tux9etvgJcZCQpKxlEO6mVwaBZzSKUG_Tyqio7D3c"
+    }
+  ],
+  "auth": {
+    "deviceId": "dev-1",
+    "phoneNonceHex": "01010101010101010101010101010101",
+    "macNonceHex": "02020202020202020202020202020202",
+    "phone": "phonecam-auth-phone|dev-1|AQEBAQEBAQEBAQEBAQEBAQ|AgICAgICAgICAgICAgICAg",
+    "mac": "phonecam-auth-mac|dev-1|AQEBAQEBAQEBAQEBAQEBAQ|AgICAgICAgICAgICAgICAg"
+  },
+  "bodies": [
+    {
+      "name": "control-idle",
+      "json": "{\"action\":\"idle\",\"t\":\"control\"}"
+    },
+    {
+      "name": "control-start-mic",
+      "json": "{\"action\":\"start\",\"mic\":true,\"t\":\"control\"}"
+    },
+    {
+      "name": "state",
+      "json": "{\"battery\":80,\"height\":1080,\"limited\":\"network\",\"mic\":true,\"t\":\"state\",\"thermal\":\"moderate\",\"width\":1920}"
+    },
+    {
+      "name": "bye",
+      "json": "{\"note\":\"stopped\",\"t\":\"bye\"}"
+    },
+    {
+      "name": "replaced",
+      "json": "{\"note\":\"Pixel 7\",\"t\":\"replaced\"}"
+    }
+  ]
+}

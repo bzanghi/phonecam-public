@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-labelledby="arch-title arch-desc">
+  <title id="arch-title">PhoneCam architecture</title>
+  <desc id="arch-desc">Diagram. An Android phone (CameraX capture, WebRTC H.264 encoder, signaling client, pairing store, foreground service) connects over the local network only to a Mac menu bar app (signaling server, pairing manager, WebRTC receiver and video pipeline, optional PhoneCam Mic driver). The app feeds a camera extension that publishes the Phone Camera device to meeting apps and reports how many apps use it, which drives camera on demand. Pairing uses a one-time QR token.</desc>
+  <defs>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a0b0f4"/>
+    </marker>
+    <marker id="head-apricot" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#f4ba87"/>
+    </marker>
+    <marker id="head-muted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#999fa9"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#0e1017"/>
+  <g font-family="'Wix Madefor Display', 'Helvetica Neue', Arial, sans-serif" fill="#f4f1ed">
+    <text x="48" y="64" font-size="34" font-weight="500">How PhoneCam works</text>
+    <text x="48" y="96" font-size="20" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">Video and signaling stay on the LAN. The Mac exposes the phone as a camera, nothing more.</text>
+  </g>
+
+  <!-- Phone panel -->
+  <rect x="40" y="128" width="460" height="680" rx="24" fill="#151820" stroke="#2a2e36"/>
+  <g font-family="'Wix Madefor Display', 'Helvetica Neue', Arial, sans-serif">
+    <text x="72" y="176" font-size="28" font-weight="500" fill="#f4f1ed">Android phone</text>
+    <text x="72" y="204" font-size="18" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">Kotlin · CameraX · WebRTC</text>
+  </g>
+  <g font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">
+    <rect x="72" y="228" width="396" height="78" rx="14" fill="#1e212a"/>
+    <rect x="72.5" y="228.5" width="395" height="1" fill="#ffffff" fill-opacity="0.12"/>
+    <text x="96" y="260" font-size="20" font-weight="500" fill="#f4f1ed">CameraX capture</text>
+    <text x="96" y="288" font-size="17" fill="#999fa9">1080p30, 720p when Wi-Fi or heat require</text>
+
+    <rect x="72" y="326" width="396" height="78" rx="14" fill="#1e212a"/>
+    <rect x="72.5" y="326.5" width="395" height="1" fill="#ffffff" fill-opacity="0.12"/>
+    <text x="96" y="358" font-size="20" font-weight="500" fill="#f4f1ed">WebRTC H.264 encoder</text>
+    <text x="96" y="386" font-size="17" fill="#999fa9">hardware encode, 6 Mbps cap (3.5 at 720p)</text>
+
+    <rect x="72" y="424" width="396" height="78" rx="14" fill="#1e212a"/>
+    <rect x="72.5" y="424.5" width="395" height="1" fill="#ffffff" fill-opacity="0.12"/>
+    <text x="96" y="456" font-size="20" font-weight="500" fill="#f4f1ed">Signaling client</text>
+    <text x="96" y="484" font-size="17" fill="#999fa9">WebSocket, HMAC-sealed after pairing</text>
+
+    <rect x="72" y="522" width="396" height="78" rx="14" fill="#1e212a"/>
+    <rect x="72.5" y="522.5" width="395" height="1" fill="#ffffff" fill-opacity="0.12"/>
+    <text x="96" y="554" font-size="20" font-weight="500" fill="#f4f1ed">Pairing store</text>
+    <text x="96" y="582" font-size="17" fill="#999fa9">device secret wrapped by Android Keystore</text>
+
+    <rect x="72" y="620" width="396" height="78" rx="14" fill="#1e212a"/>
+    <rect x="72.5" y="620.5" width="395" height="1" fill="#ffffff" fill-opacity="0.12"/>
+    <text x="96" y="652" font-size="20" font-weight="500" fill="#f4f1ed">Foreground service</text>
+    <text x="96" y="680" font-size="17" fill="#999fa9">keeps the link up with the screen off</text>
+  </g>
+
+  <!-- Local network zone -->
+  <rect x="540" y="128" width="520" height="680" rx="24" fill="none" stroke="#999fa9" stroke-opacity="0.5" stroke-dasharray="4 8" stroke-width="1.5"/>
+  <text x="800" y="170" font-size="22" font-weight="500" text-anchor="middle" fill="#caced4" font-family="'Wix Madefor Display', 'Helvetica Neue', Arial, sans-serif">Local network only</text>
+  <text x="800" y="196" font-size="16" text-anchor="middle" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">private IPv4, link-local or .local</text>
+
+  <!-- Video: phone to Mac -->
+  <line x1="500" y1="300" x2="1100" y2="300" stroke="#a0b0f4" stroke-width="3" marker-end="url(#head)"/>
+  <g font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif" text-anchor="middle">
+    <text x="800" y="282" font-size="19" fill="#caced4">Video: WebRTC, DTLS-SRTP</text>
+    <text x="800" y="326" font-size="16" fill="#999fa9">UDP host candidates only, no STUN or TURN</text>
+  </g>
+
+  <!-- Signaling: both ways -->
+  <line x1="500" y1="440" x2="1100" y2="440" stroke="#caced4" stroke-width="2.5" stroke-dasharray="9 7" marker-end="url(#head-muted)" marker-start="url(#head-muted)"/>
+  <g font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif" text-anchor="middle">
+    <text x="800" y="422" font-size="19" fill="#caced4">Signaling: WebSocket on port 47800</text>
+    <text x="800" y="466" font-size="16" fill="#999fa9">Bonjour _phonecam._tcp while a phone is paired</text>
+  </g>
+
+  <!-- Pairing: one-time QR, Mac to phone -->
+  <line x1="1100" y1="610" x2="500" y2="610" stroke="#f4ba87" stroke-width="2.5" stroke-dasharray="2 7" stroke-linecap="round" marker-end="url(#head-apricot)"/>
+  <g font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif" text-anchor="middle">
+    <text x="800" y="592" font-size="19" fill="#f4ba87">Pairing: QR code, one-time token</text>
+    <text x="800" y="636" font-size="16" fill="#999fa9">128-bit, 120 s, works once</text>
+  </g>
+
+  <!-- Mac panel -->
+  <rect x="1100" y="128" width="460" height="680" rx="24" fill="#151820" stroke="#2a2e36"/>
+  <g font-family="'Wix Madefor Display', 'Helvetica Neue', Arial, sans-serif">
+    <text x="1132" y="176" font-size="28" font-weight="500" fill="#f4f1ed">Mac</text>
+    <text x="1132" y="204" font-size="18" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">menu bar app and camera extension</text>
+  </g>
+  <g font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">
+    <rect x="1132" y="228" width="396" height="62" rx="14" fill="#1e212a"/>
+    <text x="1156" y="256" font-size="19" font-weight="500" fill="#f4f1ed">Signaling server</text>
+    <text x="1156" y="280" font-size="16" fill="#999fa9">Network.framework, LAN endpoints only</text>
+
+    <rect x="1132" y="306" width="396" height="62" rx="14" fill="#1e212a"/>
+    <text x="1156" y="334" font-size="19" font-weight="500" fill="#f4f1ed">Pairing manager</text>
+    <text x="1156" y="358" font-size="16" fill="#999fa9">token check, Keychain or 0600 file</text>
+
+    <rect x="1132" y="384" width="396" height="62" rx="14" fill="#1e212a"/>
+    <text x="1156" y="412" font-size="19" font-weight="500" fill="#f4f1ed">WebRTC receiver, video pipeline</text>
+    <text x="1156" y="436" font-size="16" fill="#999fa9">decoded frames upright, 1920×1080</text>
+
+    <rect x="1132" y="462" width="396" height="62" rx="14" fill="#1e212a" stroke="#2a2e36" stroke-dasharray="4 4"/>
+    <text x="1156" y="490" font-size="19" font-weight="500" fill="#f4f1ed">PhoneCam Mic (optional)</text>
+    <text x="1156" y="514" font-size="16" fill="#999fa9">loopback UDP 127.0.0.1, unauthenticated</text>
+  </g>
+
+  <!-- Frames into the extension -->
+  <line x1="1330" y1="554" x2="1330" y2="584" stroke="#a0b0f4" stroke-width="2.5" marker-end="url(#head)"/>
+  <text x="1346" y="574" font-size="16" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">sink stream</text>
+
+  <g font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">
+    <rect x="1132" y="590" width="396" height="62" rx="14" fill="#1e212a"/>
+    <text x="1156" y="618" font-size="19" font-weight="500" fill="#f4f1ed">Camera extension (CMIO)</text>
+    <text x="1156" y="642" font-size="16" fill="#999fa9">publishes Phone Camera; reports apps in use</text>
+  </g>
+
+  <!-- Consumer count back to the app, and frames to apps -->
+  <line x1="1400" y1="652" x2="1400" y2="686" stroke="#a0b0f4" stroke-width="2.5" marker-end="url(#head)"/>
+  <text x="1414" y="674" font-size="16" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">frames</text>
+  <g font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">
+    <rect x="1132" y="686" width="396" height="62" rx="14" fill="#1e212a"/>
+    <text x="1156" y="714" font-size="19" font-weight="500" fill="#f4f1ed">Meeting apps</text>
+    <text x="1156" y="738" font-size="16" fill="#999fa9">Zoom, Teams, FaceTime, Meet pick Phone Camera</text>
+  </g>
+
+  <text x="800" y="856" font-size="18" text-anchor="middle" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">Solid: video. Dashed: signaling and optional mic. Dotted: one-time pairing. Nothing leaves the local network.</text>
+</svg>

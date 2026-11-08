@@ -1,0 +1,26 @@
+# Runs the same checks as a local pass: Mac core tests, an ad hoc app build, and the Android unit tests.
+name: ci
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  mac:
+    # macOS runners cost minutes on a private repo: run only on manual dispatch.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Core package tests
+        run: cd mac/Packages/PhoneCamCore && swift test
+      - name: Build app + extension (ad hoc, unsigned)
+        run: |
+          brew install xcodegen
+          cd mac && xcodegen generate --quiet
+          xcodebuild -project PhoneCam.xcodeproj -scheme PhoneCam -configuration Release \
+            -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - name: Unit tests + debug build
+        run: cd android && ./gradlew --no-daemon testDebugUnitTest assembleDebug

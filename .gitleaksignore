@@ -1,0 +1,3 @@
+# Fixed hex test vectors in PairingTests.swift (protocol fixtures, not credentials)
+mac/Packages/PhoneCamCore/Tests/PhoneCamCoreTests/PairingTests.swift:generic-api-key:106
+mac/Packages/PhoneCamCore/Tests/PhoneCamCoreTests/PairingTests.swift:generic-api-key:108

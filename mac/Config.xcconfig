@@ -1,0 +1,18 @@
+// Shared build settings. Signing is configured per machine in Local.xcconfig (gitignored):
+//
+//   DEVELOPMENT_TEAM = ABCDE12345
+//   CODE_SIGN_STYLE = Automatic
+//   PHONECAM_APP_ENTITLEMENTS = PhoneCam/PhoneCam.entitlements
+//   PHONECAM_EXT_ENTITLEMENTS = PhoneCamExtension/PhoneCamExtension.entitlements
+//   PHONECAM_HARDENED_RUNTIME = YES
+//
+// Without a team the build is ad hoc signed: the app runs (signaling, WebRTC, preview) but macOS will not
+// activate the camera extension, because system extensions require a team-signed, provisioned build.
+
+CODE_SIGN_STYLE = Automatic
+CODE_SIGN_IDENTITY = -
+PHONECAM_APP_ENTITLEMENTS = PhoneCam/PhoneCam-adhoc.entitlements
+PHONECAM_EXT_ENTITLEMENTS = PhoneCamExtension/PhoneCamExtension-adhoc.entitlements
+PHONECAM_HARDENED_RUNTIME = NO
+
+#include? "Local.xcconfig"

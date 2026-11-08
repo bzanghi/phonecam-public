@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 560" width="1600" height="560" role="img" aria-labelledby="hero-title hero-desc">
+  <title id="hero-title">PhoneCam hero banner</title>
+  <desc id="hero-desc">Illustration, not a screenshot. On the left, the words PhoneCam and "an Android phone as your Mac's webcam". On the right, a smartphone in smoked glass shows a Ready state, linked over local Wi-Fi to a Mac display whose video tile is labelled Phone Camera.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0e1017"/>
+      <stop offset="1" stop-color="#151820"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#23262f"/>
+      <stop offset="1" stop-color="#1a1d26"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="560" fill="url(#bg)"/>
+
+  <!-- Left: wordmark and value line -->
+  <g font-family="'Wix Madefor Display', 'Helvetica Neue', Arial, sans-serif">
+    <text x="96" y="240" font-size="120" font-weight="500" letter-spacing="-2.6" fill="#f4f1ed">PhoneCam</text>
+    <text font-size="36" fill="#caced4">
+      <tspan x="98" y="312">An Android phone as</tspan>
+      <tspan x="98" y="358">your Mac’s webcam.</tspan>
+    </text>
+    <text x="98" y="414" font-size="24" fill="#999fa9">Local Wi-Fi only. No accounts, no cloud.</text>
+    <!-- one periwinkle pill: the signal colour -->
+    <rect x="98" y="450" width="236" height="56" rx="28" fill="#a0b0f4"/>
+    <text x="216" y="485" font-size="22" font-weight="500" text-anchor="middle" fill="#0f1223">Phone Camera</text>
+  </g>
+
+  <!-- Link between phone and Mac: LAN only -->
+  <line x1="1158" y1="268" x2="1326" y2="268" stroke="#a0b0f4" stroke-width="2.5" stroke-dasharray="7 7"/>
+  <circle cx="1242" cy="268" r="6" fill="#f4ba87"/>
+  <text x="1242" y="236" font-size="19" text-anchor="middle" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">Wi-Fi, LAN only</text>
+
+  <!-- Mac display (smoked glass) -->
+  <g>
+    <rect x="762" y="112" width="396" height="262" rx="18" fill="url(#glass)" stroke="#ffffff" stroke-opacity="0.07"/>
+    <rect x="782" y="132" width="356" height="222" rx="10" fill="#020309"/>
+    <!-- Meeting tile: an illustrated stand-in for the video, not a real frame -->
+    <rect x="782" y="132" width="356" height="222" rx="10" fill="#151820"/>
+    <circle cx="960" cy="222" r="34" fill="#2a2e36"/>
+    <path d="M900 330 Q960 262 1020 330 Z" fill="#2a2e36"/>
+    <rect x="898" y="312" width="124" height="34" rx="17" fill="#1e212a" fill-opacity="0.9"/>
+    <text x="960" y="335" font-size="18" text-anchor="middle" fill="#caced4" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">Phone Camera</text>
+    <circle cx="1116" cy="150" r="5" fill="#f4ba87"/>
+  </g>
+  <rect x="930" y="374" width="60" height="10" rx="3" fill="#2a2e36"/>
+
+  <!-- Phone (smoked glass with lit top edge) -->
+  <g>
+    <rect x="1330" y="72" width="212" height="430" rx="36" fill="url(#glass)" stroke="#ffffff" stroke-opacity="0.08"/>
+    <rect x="1348" y="92" width="176" height="390" rx="24" fill="#020309"/>
+    <circle cx="1436" cy="138" r="6" fill="#999fa9"/>
+    <text x="1436" y="244" font-size="30" font-weight="500" text-anchor="middle" fill="#f4f1ed" font-family="'Wix Madefor Display', 'Helvetica Neue', Arial, sans-serif">Ready</text>
+    <text x="1436" y="282" font-size="13.5" text-anchor="middle" fill="#999fa9" font-family="'Wix Madefor Text', 'Helvetica Neue', Arial, sans-serif">camera off until a Mac asks</text>
+    <rect x="1380" y="420" width="112" height="7" rx="3.5" fill="#2a2e36"/>
+  </g>
+</svg>

@@ -1,0 +1,95 @@
+name: PhoneCam
+options:
+  minimumXcodeGenVersion: 2.40.0
+  bundleIdPrefix: com.zanghi
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    # Both bundles need versions: sysextd refuses an extension without CFBundleShortVersionString.
+    # install.sh sets CURRENT_PROJECT_VERSION (the app) to a timestamp per install, and PHONECAM_EXT_VERSION (the
+    # camera extension) to a new timestamp only when the extension's sources change: each new extension version makes
+    # macOS replace the running one, which can leave the camera missing until a restart.
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    PHONECAM_EXT_VERSION: "1"
+    PHONECAM_MIC_VERSION: "1"
+    SWIFT_STRICT_CONCURRENCY: complete
+configFiles:
+  Debug: Config.xcconfig
+  Release: Config.xcconfig
+packages:
+  WebRTC:
+    url: https://github.com/stasel/WebRTC
+    exactVersion: 155.0.0
+  PhoneCamCore:
+    path: Packages/PhoneCamCore
+targets:
+  PhoneCam:
+    type: application
+    platform: macOS
+    sources:
+      - path: PhoneCam
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zanghi.phonecam
+        PRODUCT_NAME: PhoneCam
+        INFOPLIST_FILE: PhoneCam/Info.plist
+        CODE_SIGN_ENTITLEMENTS: $(PHONECAM_APP_ENTITLEMENTS)
+        SWIFT_VERSION: "5.0"
+        ENABLE_HARDENED_RUNTIME: $(PHONECAM_HARDENED_RUNTIME)
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
+        SWIFT_OBJC_BRIDGING_HEADER: PhoneCam/PhoneCam-Bridging-Header.h
+    dependencies:
+      - package: WebRTC
+      - package: PhoneCamCore
+        product: PhoneCamCore
+      - package: PhoneCamCore
+        product: PhoneCamShared
+      - target: PhoneCamExtension
+        embed: true
+        codeSign: true
+        copy:
+          destination: wrapper
+          subpath: Contents/Library/SystemExtensions
+      # Copied into /Library/Audio/Plug-Ins/HAL only when the phone microphone is switched on for this Mac.
+      - target: PhoneCamMic
+        embed: true
+        codeSign: true
+        copy:
+          destination: resources
+  PhoneCamExtension:
+    type: system-extension
+    platform: macOS
+    sources:
+      - path: PhoneCamExtension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zanghi.phonecam.camera-extension
+        PRODUCT_NAME: com.zanghi.phonecam.camera-extension
+        INFOPLIST_FILE: PhoneCamExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: $(PHONECAM_EXT_ENTITLEMENTS)
+        ENABLE_HARDENED_RUNTIME: $(PHONECAM_HARDENED_RUNTIME)
+        SWIFT_VERSION: "5.0"
+        SKIP_INSTALL: YES
+    dependencies:
+      - package: PhoneCamCore
+        product: PhoneCamShared
+  PhoneCamMic:
+    type: bundle
+    platform: macOS
+    sources:
+      - path: PhoneCamMic
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.zanghi.phonecam.mic
+        PRODUCT_NAME: PhoneCamMic
+        WRAPPER_EXTENSION: driver
+        INFOPLIST_FILE: PhoneCamMic/Info.plist
+        GCC_C_LANGUAGE_STANDARD: c17
+        ENABLE_HARDENED_RUNTIME: $(PHONECAM_HARDENED_RUNTIME)
+        SKIP_INSTALL: YES
+    dependencies:
+      - sdk: CoreAudio.framework
+      - sdk: CoreFoundation.framework

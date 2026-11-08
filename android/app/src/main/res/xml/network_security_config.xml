@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Signaling is plain ws:// on the LAN; it is authenticated with HMACs keyed by the pairing secret, and media is DTLS-SRTP. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>
